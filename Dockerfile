@@ -1,17 +1,6 @@
 FROM odoo:17.0
 
-# Update all packages to fix vulnerabilities
-USER root
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get dist-upgrade -y && \
-    apt-get autoremove -y && \
-    USER root
-
-RUN apt-get -y update && apt-get install -y --no-install-recommends locales netcat-openbsd \
-    && locale-gen ${LOCALE} \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+ARG LOCALE=en_US.UTF-8
 
 ENV LANGUAGE=${LOCALE}
 ENV LC_ALL=${LOCALE}
