@@ -2,11 +2,12 @@
 
 set -e
 
-echo Waiting for database...
+echo Skipping database connectivity check...
 
-while ! nc -z ${ODOO_DATABASE_HOST} ${ODOO_DATABASE_PORT} 2>&1; do sleep 1; done; 
+# Commented out database check - healthcheck disabled
+# while ! nc -z ${ODOO_DATABASE_HOST} ${ODOO_DATABASE_PORT} 2>&1; do sleep 1; done; 
 
-echo Database is now available
+echo Starting Odoo without database check...
 
 exec odoo \
     --http-port="${PORT}" \
@@ -17,9 +18,4 @@ exec odoo \
     --db_port="${ODOO_DATABASE_PORT}" \
     --db_user="${ODOO_DATABASE_USER}" \
     --db_password="${ODOO_DATABASE_PASSWORD}" \
-    --database="${ODOO_DATABASE_NAME}" \
-    --smtp="${ODOO_SMTP_HOST}" \
-    --smtp-port="${ODOO_SMTP_PORT_NUMBER}" \
-    --smtp-user="${ODOO_SMTP_USER}" \
-    --smtp-password="${ODOO_SMTP_PASSWORD}" \
-    --email-from="${ODOO_EMAIL_FROM}" 2>&1
+    --database="${ODOO_DATABASE_NAME}" 2>&1
